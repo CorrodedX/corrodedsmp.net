@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title>Corroded SMP</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
+        
+        body {
+            background: url('https://i.imgur.com/d4Vx1ZX.jpeg') no-repeat center center fixed;
+            background-size: cover;
+            font-family: 'Roboto', sans-serif;
+            color: white;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            max-width: 800px;
+            margin: 20px auto;
+            background: rgba(0, 0, 0, 0.6);
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0px 0px 20px rgba(255, 255, 255, 0.2);
+            opacity: 0;
+            transition: opacity 0.5s ease-in-out, transform 0.3s ease-in-out;
+        }
+        .container.visible {
+            opacity: 1;
+        }
+        .container:hover {
+            transform: scale(1.02);
+        }
+        .navbar {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            background: rgba(0, 0, 0, 0.7);
+            padding: 10px;
+            border-radius: 15px;
+            box-shadow: 0px 0px 15px rgba(255, 255, 255, 0.1);
+            position: sticky;
+            top: 10px;
+            z-index: 1000;
+        }
+        .navbar button {
+            background: transparent;
+            border: 2px solid white;
+            color: white;
+            padding: 10px;
+            cursor: pointer;
+            font-family: inherit;
+            border-radius: 10px;
+            transition: 0.3s;
+        }
+        .navbar button:hover, .navbar button.active {
+            background: white;
+            color: black;
+        }
+        #rules ul, #whitelisted ul {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+        }
+        #visit-counter {
+            margin-top: 20px;
+            font-size: 18px;
+        }
+        @media (max-width: 600px) {
+            body {
+                font-size: 12px;
+            }
+            .navbar {
+                flex-direction: column;
+                gap: 10px;
+            }
+            .navbar button {
+                width: 80%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="navbar">
+        <button onclick="showSection('home')" id="btn-home" class="active">Home</button>
+        <button onclick="showSection('whitelisted')" id="btn-whitelisted">Whitelisted</button>
+        <button onclick="showSection('rules')" id="btn-rules">Rules</button>
+        <button onclick="window.open('https://discord.gg/qzHk4Wtq', '_blank')">Discord</button>
+        <button onclick="window.open('https://www.youtube.com/@CorrodedSMP', '_blank')">YouTube</button>
+    </div>
+
+    <div id="home" class="container visible">
+        <h1>Welcome to Corroded SMP</h1>
+        <p>Made by NotLilBeast</p>
+        <p id="visit-counter"></p>
+    </div>
+
+    <div id="whitelisted" class="container hidden">
+        <h1>Whitelisted Players</h1>
+        <ul id="whitelist-list">
+            <!-- Dynamic list will be inserted here -->
+        </ul>
+    </div>
+
+    <div id="rules" class="container hidden">
+        <h1>Server Rules</h1>
+        <ul>
+            <li><strong>No Cheating:</strong> No hacks like X-ray, Freecam, etc.</li>
+            <li><strong>No Racial Slurs or Hate Speech:</strong> Keep it respectful.</li>
+            <li><strong>No Duping:</strong> No item duplication. <strong>No exceptions.</strong></li>
+            <li><strong>No Combat Logging:</strong> Stay online for 15s after combat.</li>
+            <li><strong>No Exploiting or Bug Abusing:</strong> Unfair advantages are not allowed.</li>
+            <li><strong>No Killing Villagers:</strong> They're essential for the economy.</li>
+            <li><strong>No Crystal or Anchor PvP:</strong> Only TNT minecarts are allowed.</li>
+            <li><strong>Follow Discord's TOS:</strong> <a href="https://discord.com/terms" target="_blank">Read here</a>.</li>
+            <li><strong>Use Common Sense:</strong> If unsure, follow general SMP rules.</li>
+            <li><strong>No Auto-Crafting the Mace:</strong> Immediate ban if automated.</li>
+        </ul>
+        <p><strong>💀 Breaking these rules will lead to punishment.</strong></p>
+    </div>
+    
+    <script>
+        // Function to show a section
+        function showSection(sectionId) {
+            document.querySelectorAll('.container').forEach(section => section.classList.remove('visible'));
+            document.querySelectorAll('.navbar button').forEach(btn => btn.classList.remove('active'));
+
+            const section = document.getElementById(sectionId);
+            if (section) {
+                section.classList.add('visible');
+            }
+            document.getElementById(`btn-${sectionId}`).classList.add('active');
+        }
+
+        // Function to update visit counter
+        function updateVisitCounter() {
+            let visits = localStorage.getItem('visitCount') || 0;
+            visits++;
+            localStorage.setItem('visitCount', visits);
+            document.getElementById('visit-counter').textContent = `Site Visits: ${visits}`;
+        }
+
+        // Simulate dynamic data for the whitelist
+        function updateWhitelist() {
+            const players = [
+                'Kdubb728', 'Doko_BhaiYT (second)', 'harnkey_', 'Cqntaloupe', 'sm0kerxd', 
+                'Johnny_Gh0st', 'lurhquifa', 'Weelaa', 'FreaklyBob', 'whosstell', 'qDDevil', 
+                'WearyOrpheus441', 'boldfv1', 'cxrbyy', 'CorbinAbrego', 'notlilbeast'
+            ];
+
+            const whitelistList = document.getElementById('whitelist-list');
+            players.forEach(player => {
+                const listItem = document.createElement('li');
+                listItem.textContent = player;
+                whitelistList.appendChild(listItem);
+            });
+        }
+
+        // Initialize site
+        updateVisitCounter();
+        updateWhitelist();
+    </script>
+</body>
+</html>
